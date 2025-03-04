@@ -3,6 +3,7 @@ import { Security } from "../Tools/Security";
 import { Tools } from "../Tools/Tools";
 import { UserModel } from "../Models/UserModel";
 import { User } from "../Types/User";
+import { Folders } from "../Tools/Folders";
 
 export class UserController {
 
@@ -42,6 +43,7 @@ export class UserController {
                     console.log(error)
                     return res.status(400).json({error: "Probleme lors de la création du user | " + error})
                 } else {
+                    await Folders.createFolder(String(insertId));
                     res.status(201).json({message: "User créé | " + insertId});
                     return insertId;
                 }

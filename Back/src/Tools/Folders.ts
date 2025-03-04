@@ -13,7 +13,7 @@ export class Folders {
 
     public static async createFolder(id: string) {
         try {
-            const postFolder = path.join(__dirname, '../Images/imgPost', id);
+            const postFolder = path.join(__dirname, '../../Images/imgPost', id);
             if (!(await Folders.folderExists(postFolder))) {
                 await fs.mkdir(postFolder, { recursive: true });
                 return true;
@@ -26,7 +26,7 @@ export class Folders {
 
     public static async deleteAllFolders(id: string): Promise<boolean> {
         try {
-            const postFolder = path.join(__dirname, '../Images/imgPost', id);
+            const postFolder = path.join(__dirname, '../../Images/imgPost', id);
 
             if ((await Folders.folderExists(postFolder))) {
                 await fs.rm(postFolder, { recursive: true })
@@ -41,7 +41,7 @@ export class Folders {
 
     public static async deleteFolder(id: string, nameFile: string): Promise<boolean> {
         try {
-            const postFolder = path.join(__dirname, '../Images/imgPost', id, nameFile);
+            const postFolder = path.join(__dirname, '../../Images/imgPost', id, nameFile);
 
             if (await Folders.folderExists(postFolder)) {
                 await fs.rm(postFolder, { recursive: true });
