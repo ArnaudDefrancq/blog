@@ -17,6 +17,7 @@ class UserRoute {
         this.router.get('/', AuthMiddleware.auth, UserController.getAllUser);
         this.router.get('/:id', AuthMiddleware.auth, UserController.getOneUser);
         this.router.put('/:id/update', AuthMiddleware.auth, UserController.updateUser);
+        this.router.delete('/:id', AuthMiddleware.auth, UserController.deleteUser)
     }
 }
 

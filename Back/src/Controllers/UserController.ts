@@ -190,6 +190,23 @@ export class UserController {
 
             const userModel: UserModel = new UserModel();
             
+            userModel.deleteUser(idUser, (error, affectedRow) => {
+                if (error) {
+                    return res.status(400).json({error: "Probleme lors de la suppression | " + error});
+                } 
+                
+                req.session.destroy((error) => {
+                    if (error) { 
+                        console.log("Échec de la destruction de la session | " + error);
+                        return res.status(500).json({ error: "Erreur lors de la suppression de la session" });
+                    }
+            
+                    console.log("Session supprimée avec succès");
+                    res.status(200).json({ message: "Utilisateur supprimé avec succès avec sa session" });
+                });
+                return idUser;
+            })
+
         } catch (error) {
             return res.status(500).json({error: 'Erreur interne du serveur'});
         }

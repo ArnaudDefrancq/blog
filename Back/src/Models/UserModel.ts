@@ -24,7 +24,7 @@ export class UserModel {
     return this.userDao.update(id, user, callback)
   }
   
-  public deleteTodo(id: number,  callback: (error: Error | null, affectedRows?: number) => void) {
+  public deleteUser(id: number,  callback: (error: Error | null, affectedRows?: number) => void) {
     return this.userDao.delete(id, callback);
   }
 }
