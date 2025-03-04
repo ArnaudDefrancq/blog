@@ -6,6 +6,7 @@ import session from "express-session";
 import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import PostRoute from "./Routes/PostRoute";
+import path from "path";
 
 
 dotenv.config();
@@ -66,6 +67,8 @@ app.get("/", (req, res) => {
 
 app.use('/user', UserRoute);
 app.use('/post', PostRoute);
+
+app.use('/imgPost', express.static(path.join(__dirname, './Images/imgPost')));
 
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
