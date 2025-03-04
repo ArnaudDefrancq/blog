@@ -5,6 +5,7 @@ import UserRoute from "./Routes/UserRoute";
 import session from "express-session";
 import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
+import PostRoute from "./Routes/PostRoute";
 
 
 dotenv.config();
@@ -63,8 +64,8 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use('/user', UserRoute)
-
+app.use('/user', UserRoute);
+app.use('/post', PostRoute);
 
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
