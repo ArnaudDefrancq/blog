@@ -28,12 +28,11 @@ export class Folders {
         try {
             const postFolder = path.join(__dirname, '../Images/imgPost', id);
 
-            if (!(await Folders.folderExists(postFolder))) {
-                return false;
+            if ((await Folders.folderExists(postFolder))) {
+                await fs.rm(postFolder, { recursive: true })
             }
-            
-            await fs.rm(postFolder, { recursive: true })
             return true;
+
         } catch (error) {
             console.error('Erreur lors de la suppression des dossiers | ' + error);
             return false;
@@ -44,11 +43,9 @@ export class Folders {
         try {
             const postFolder = path.join(__dirname, '../Images/imgPost', id, nameFile);
 
-            if (!(await Folders.folderExists(postFolder))) {
-                console.error('Le fichier existe pas');
-                return false
+            if (await Folders.folderExists(postFolder)) {
+                await fs.rm(postFolder, { recursive: true });
             }
-            await fs.rm(postFolder, { recursive: true });
             return true;
         } catch (error) {
             console.error('Erreur lors de la suppression des dossiers | ' + error);
