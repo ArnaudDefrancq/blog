@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { Post } from "../Types/Post";
 import { PostModel } from "../Models/PostModel";
 import { Tools } from "../Tools/Tools";
+import path from "path";
+import fs from 'fs';
+
 
 export class PostController {
     private static async getOneById(id:number, withUser: boolean = false): Promise<Post | null> {
@@ -117,6 +120,52 @@ export class PostController {
             return post;
         } catch (error) {
             return res.status(500).json({error});
+        }
+    }
+
+    public static async updatePost(req: Request, res: Response, next: NextFunction) : Promise<number | any> {
+        try {
+            const idPost: number = Number(req.params.id);
+            if (isNaN(idPost)) {
+                return res.status(400).json({ error: 'ID post invalide' });  
+            }
+            const post: Post | null = await PostController.getOneById(idPost);
+            
+            if (!post) {
+                return res.status(400).json({error: "Pas de post trouvé"});
+            }
+            
+            if  (post.id_user != req.session.id_user) {
+                return res.status(401).json({error: "unauthorized"});
+            }
+            
+            const postModel: PostModel = new PostModel();
+            var reqFile;
+            if (post.media) {
+                const oldImagePath = path.join(__dirname, '../../Images/imgPost/', String(post.id_user), post.media);
+                fs.unlinkSync(oldImagePath);
+                post.media = undefined;
+            }
+
+            if (req.file) {
+                reqFile = req.file as Express.Multer.File;
+            }
+            const updatePost : Partial<Post> = {
+                title: req.body.title ? req.body.title : post.title,
+                content: req.body.content ? req.body.content : post.content,
+                media: reqFile ? String(reqFile.path.split('\\').at(-1)) : post.media,
+                updated_at: Tools.dateToTimestamp()
+            }
+
+            postModel.updatePost(idPost, updatePost, (error, affectedRow) => {
+                if (error) {
+                    return res.status(400).json({error: "Probleme lors de l'update du post | " + error});
+                }
+                res.status(200).json({message: "Post update | " + affectedRow})
+                return idPost;
+            })
+        } catch (error) {
+            return res.status(500).json({ error: 'Erreur interne du serveur' });
         }
     }
 }
