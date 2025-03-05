@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import { AuthMiddleware } from "../Middlewares/AuthMiddleware";
 import { PostController } from "../Controllers/PostController";
+import { MulterMiddleware } from "../Middlewares/MulterMiddleware";
 
 class PostRoute {
     public router: Router;
@@ -11,7 +12,7 @@ class PostRoute {
     }
 
     private initializeRoutes(): void {
-        this.router.post("/", AuthMiddleware.auth, PostController.createPost);
+        this.router.post("/", AuthMiddleware.auth, MulterMiddleware.getMulterConfigPost("imgPost"), PostController.createPost);
     }
 }
 

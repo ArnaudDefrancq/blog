@@ -16,6 +16,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const redisClient = new Redis("redis://localhost:6379")
 
@@ -68,7 +69,7 @@ app.get("/", (req, res) => {
 app.use('/user', UserRoute);
 app.use('/post', PostRoute);
 
-app.use('/imgPost', express.static(path.join(__dirname, './Images/imgPost')));
+app.use('/imgPost', express.static(path.join(__dirname, '../../Images/imgPost')));
 
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);

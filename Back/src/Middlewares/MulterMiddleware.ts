@@ -1,10 +1,10 @@
 import multer from "multer"
 import path from "path"
 export class MulterMiddleware {
-    public static getMulterConfigPost (folder: string, id:number) {
+    public static getMulterConfigPost (folder: string) {
         const storage = multer.diskStorage({
             destination: (req, file, cb) => {
-                cb(null, path.join(__dirname, `../Images/${folder}/${id}`))
+                cb(null, path.join(__dirname, `../../Images/${folder}/${req.session.id_user}`))
             },
             filename: (req, file, cb) => {
                 const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
@@ -17,6 +17,6 @@ export class MulterMiddleware {
             limits: {
                 fileSize: 1024 * 1024 * 5
             }
-        })
+        }).single("media")
     }
 }
