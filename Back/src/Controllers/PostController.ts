@@ -4,6 +4,20 @@ import { PostModel } from "../Models/PostModel";
 import { Tools } from "../Tools/Tools";
 
 export class PostController {
+    private static async getOneById(id:number, withUser: boolean = false): Promise<Post | null> {
+        const postModel: PostModel = new PostModel();
+        var result: Array<Post> = [];
+        result = await postModel.findById(id);
+        if (withUser) {
+            const queryString: string = `SELECT p.id_post, p.title, p.content, p.media, p.created_at, p.updated_at, u.pseudo FROM blog__posts as p JOIN blog__users as u ON p.id_user = u.id_user;`;
+            result = await postModel.findById(id, '', queryString);
+        }
+        if (!result || result.length == 0) {
+            return null;
+        }
+        return result[0];
+    }
+
     public static async createPost(req: Request, res: Response, next: NextFunction): Promise<number | any> {
         try {
             const postModel: PostModel = new PostModel();
@@ -63,6 +77,46 @@ export class PostController {
             return arrayPost;
         } catch (error) {
             return res.status(500).json({ error: 'Erreur interne du serveur' });
+        }
+    }
+
+    public static async getOnePostWithUser(req: Request, res: Response, next: NextFunction) : Promise<Post | any> {
+        try {
+            const idPost: number = Number(req.params.id);
+            if (isNaN(idPost)) {
+                return res.status(400).json({ error: 'ID post invalide' });  
+            }
+
+            const post: Post | null = await PostController.getOneById(idPost, true);
+            
+            if (!post) {
+                return res.status(400).json({error: "Pas de post trouvé"});
+            }
+
+            res.status(200).json(post);
+            return post;
+        } catch (error) {
+            return res.status(500).json({error});
+        }
+    }
+
+    public static async getOnePost(req: Request, res: Response, next: NextFunction) : Promise<Post | any> {
+        try {
+            const idPost: number = Number(req.params.id);
+            if (isNaN(idPost)) {
+                return res.status(400).json({ error: 'ID post invalide' });  
+            }
+
+            const post: Post | null = await PostController.getOneById(idPost);
+            
+            if (!post) {
+                return res.status(400).json({error: "Pas de post trouvé"});
+            }
+
+            res.status(200).json(post);
+            return post;
+        } catch (error) {
+            return res.status(500).json({error});
         }
     }
 }

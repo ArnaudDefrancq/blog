@@ -15,6 +15,8 @@ class PostRoute {
         this.router.post("/", AuthMiddleware.auth, MulterMiddleware.getMulterConfigPost("imgPost"), PostController.createPost);
         this.router.get("/", AuthMiddleware.auth, PostController.getAllPost);
         this.router.get("/user", AuthMiddleware.auth, PostController.getAllPostWithUser);
+        this.router.get("/:id", AuthMiddleware.auth, PostController.getOnePost);
+        this.router.get("/:id/user", AuthMiddleware.auth, PostController.getAllPostWithUser);
     }
 }
 
