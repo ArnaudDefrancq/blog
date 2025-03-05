@@ -18,6 +18,7 @@ class PostRoute {
         this.router.get("/:id", AuthMiddleware.auth, PostController.getOnePost);
         this.router.get("/:id/user", AuthMiddleware.auth, PostController.getAllPostWithUser);
         this.router.put("/:id", AuthMiddleware.auth, MulterMiddleware.getMulterConfigPost('imgPost'), PostController.updatePost);
+        this.router.delete("/:id", AuthMiddleware.auth, PostController.deletePost);
     }
 }
 
