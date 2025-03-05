@@ -103,7 +103,8 @@ export class UserController {
             const arrayUser: Array<User> = await userModel.findUser("");
 
             if (!arrayUser || arrayUser.length == 0) {
-                return res.status(400).json({error: "Aucun user trouvé"})
+                res.status(400).json({error: "Aucun user trouvé"})
+                return [];
             }
 
             res.status(200).json(arrayUser);
