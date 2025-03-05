@@ -30,4 +30,24 @@ export class PostController {
             return res.status(500).json({error});
         }
     }
+
+    public static async getAllPostWithUser(req: Request, res: Response, next: NextFunction): Promise<Array<Post> | any> {
+        
+    }
+
+    public static async getAllPost(req: Request, res: Response, next: NextFunction): Promise<Array<Post> | any> {
+        try {
+            const postModel: PostModel = new PostModel()
+            const arrayPost: Array<Post> = await postModel.findPost('');
+
+            if (!arrayPost || arrayPost.length == 0) {
+                res.status(400).json({error: "Aucun post trouvé"})
+                return [];
+            }
+            res.status(200).json(arrayPost);
+            return arrayPost;
+        } catch (error) {
+            return res.status(500).json({ error: 'Erreur interne du serveur' });
+        }
+    }
 }
