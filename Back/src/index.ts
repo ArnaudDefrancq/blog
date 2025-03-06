@@ -69,7 +69,7 @@ app.get("/", (req, res) => {
 
 app.use('/user', UserRoute);
 app.use('/post', PostRoute);
-app.use('/user', CommentRoute);
+app.use('/comment', CommentRoute);
 
 app.use('/imgPost', express.static(path.join(__dirname, '../../Images/imgPost')));
 

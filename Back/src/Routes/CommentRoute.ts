@@ -12,6 +12,10 @@ export class CommentRoute {
 
     private initializeRoutes(): void {
         this.router.post("/", AuthMiddleware.auth, CommentController.createComment);
+        this.router.get("/", AuthMiddleware.auth, CommentController.getAllComment);
+        this.router.get("/user", AuthMiddleware.auth, CommentController.getAllCommentWithUser);
+        this.router.get("/:id/user", AuthMiddleware.auth, CommentController.getOneCommentWithUser);
+        this.router.delete("/:id", AuthMiddleware.auth, CommentController.deleteComment);
     }
     
 }
