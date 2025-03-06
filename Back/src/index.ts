@@ -7,6 +7,7 @@ import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import PostRoute from "./Routes/PostRoute";
 import path from "path";
+import CommentRoute from "./Routes/CommentRoute";
 
 
 dotenv.config();
@@ -68,6 +69,7 @@ app.get("/", (req, res) => {
 
 app.use('/user', UserRoute);
 app.use('/post', PostRoute);
+app.use('/user', CommentRoute);
 
 app.use('/imgPost', express.static(path.join(__dirname, '../../Images/imgPost')));
 
