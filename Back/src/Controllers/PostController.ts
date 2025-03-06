@@ -170,42 +170,42 @@ export class PostController {
     }
 
     public static async deletePost(req: Request, res: Response, next: NextFunction) : Promise<number | any> {
-                try {
-                    const idPost: number = Number(req.params.id);
-                    if (isNaN(idPost)) {
-                        return res.status(400).json({ error: 'ID post invalide' });  
-                    }
-        
-                    const post: Post | null = await PostController.getOneById(idPost);
-        
-                    if (!post) {
-                        return res.status(400).json({error: "Pas  de post trouvé"});
-                    }
-                    
-                    if  (post.id_user != req.session.id_user) {
-                        return res.status(401).json({error: "unauthorized"});
-                    }
-        
-                    if (post.media) {
-                        const oldImagePath = path.join(__dirname, '../../Images/imgPost/', String(post.id_user), post.media);
-                        fs.unlinkSync(oldImagePath);
-                    }
+        try {
+            const idPost: number = Number(req.params.id);
+            if (isNaN(idPost)) {
+                return res.status(400).json({ error: 'ID post invalide' });  
+            }
 
-                    const postModel: PostModel = new PostModel();
+            const post: Post | null = await PostController.getOneById(idPost);
 
-                    // TODO: Supprimer tous les commentaires avant de supprimer le post sinon problème
-                    
-                    postModel.deletePost(idPost, (error, affectedRow) => {
-                        if (error) {
-                            return res.status(400).json({error: "Probleme lors de la suppression | " + error});
-                        } 
-                        
-                        res.status(200).json({message: "Post supprimé | " + idPost})
-                        return idPost;
-                    })
-        
-                } catch (error) {
-                    return res.status(500).json({error: 'Erreur interne du serveur'});
-                }
+            if (!post) {
+                return res.status(400).json({error: "Pas  de post trouvé"});
+            }
+            
+            if  (post.id_user != req.session.id_user) {
+                return res.status(401).json({error: "unauthorized"});
+            }
+
+            if (post.media) {
+                const oldImagePath = path.join(__dirname, '../../Images/imgPost/', String(post.id_user), post.media);
+                fs.unlinkSync(oldImagePath);
+            }
+
+            const postModel: PostModel = new PostModel();
+
+            // TODO: Supprimer tous les commentaires avant de supprimer le post sinon problème
+            
+            postModel.deletePost(idPost, (error, affectedRow) => {
+                if (error) {
+                    return res.status(400).json({error: "Probleme lors de la suppression | " + error});
+                } 
+                
+                res.status(200).json({message: "Post supprimé | " + idPost})
+                return idPost;
+            })
+
+        } catch (error) {
+            return res.status(500).json({error: 'Erreur interne du serveur'});
+        }
     }
 }
