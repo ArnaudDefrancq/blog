@@ -23,6 +23,10 @@ export class PostController {
 
     public static async createPost(req: Request, res: Response, next: NextFunction): Promise<number | any> {
         try {
+            if (req.body.title == "" || !req.body.title || req.body.content == "" || !req.body.content) {
+                return res.status(400).json({error : "Tous les champs ne sont pas remplient"});
+            }
+
             const postModel: PostModel = new PostModel();
             var reqFile = req.file as Express.Multer.File;
 
