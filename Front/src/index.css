@@ -1,1 +1,28 @@
+@font-face {
+    font-family: 'title';
+    src: url("../src/Assets/font/OpenSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: 'body';
+    src: url("../src/Assets/font/Roboto-Regular.ttf");
+}
+
 @import "tailwindcss";
+
+@theme{
+    --color-colorOne: #DEDBD2;
+    --color-colorTwo: #B0C4B1;
+    --color-colorThree:  #F7E1D7; 
+    --color-colorFour: #EDAFB8;
+    --color-colorFive: #4A5759;
+    --color-error: red;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'title';
+}
+
+body {
+    font-family: 'body';
+}
