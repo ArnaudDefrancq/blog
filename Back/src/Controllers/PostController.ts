@@ -4,6 +4,10 @@ import { PostModel } from "../Models/PostModel";
 import { Tools } from "../Tools/Tools";
 import path from "path";
 import fs from 'fs';
+import { CommentModel } from "../Models/CommentModel";
+import { Comment } from "../Types/Comment";
+import { Like_postModel } from "../Models/Like_postModel";
+import { Like_post } from "../Types/Like_post";
 
 
 export class PostController {
@@ -196,8 +200,37 @@ export class PostController {
             }
 
             const postModel: PostModel = new PostModel();
+            const commentModel: CommentModel = new CommentModel();
+            const likePostModel: Like_postModel = new Like_postModel();
 
-            // TODO: Supprimer tous les commentaires avant de supprimer le post sinon problème
+            const arrayComment : Array<Comment> = await commentModel.findComment(`WHERE id_post=${idPost}`);
+
+            if (arrayComment && arrayComment.length > 0) {
+                arrayComment.forEach(com => {
+                    if (com.id_comment) {
+                        commentModel.deleteComment(com.id_comment, (error) => {
+                            if (error) {
+                                console.error("Probleme lors de la suppression du commentaire id_comment | " + com.id_comment + " | " + error)
+                            }
+                        })
+                    }
+                })
+            }
+
+
+            const arrayLikePost: Array<Like_post> = await likePostModel.findLike_post(`WHERE id_post=${idPost}`);
+            if (arrayLikePost && arrayLikePost.length > 0) {
+                arrayLikePost.forEach(likePost => {
+                    if (likePost.id_like_post) {
+                        likePostModel.deleteLike_post(likePost.id_like_post, (error) => {
+                            if (error) {
+                                console.error("Probleme lors de la suppression du like-post id_like_post | " + likePost.id_like_post + " | " + error)
+                            }
+                        })
+                    }
+                })
+            }
+
             
             postModel.deletePost(idPost, (error, affectedRow) => {
                 if (error) {
