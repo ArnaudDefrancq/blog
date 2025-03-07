@@ -8,6 +8,7 @@ import Redis from "ioredis";
 import PostRoute from "./Routes/PostRoute";
 import path from "path";
 import CommentRoute from "./Routes/CommentRoute";
+import Like_postRoute from "./Routes/Like_postRoute";
 
 
 dotenv.config();
@@ -70,6 +71,7 @@ app.get("/", (req, res) => {
 app.use('/user', UserRoute);
 app.use('/post', PostRoute);
 app.use('/comment', CommentRoute);
+app.use('/like-post', Like_postRoute);
 
 app.use('/imgPost', express.static(path.join(__dirname, '../../Images/imgPost')));
 
