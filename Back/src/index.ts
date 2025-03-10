@@ -49,7 +49,7 @@ app.use(session({
   store: new RedisStore({ client: redisClient }),
   secret: process.env.SESSION_KEY!, // Clé secrète pour signer les cookies
   resave: false, // Évite de sauvegarder la session si elle n'a pas changé
-  saveUninitialized: true, // Ne crée pas de session vide si false
+  saveUninitialized: false, // Ne crée pas de session vide si false
   cookie: {
     secure: process.env.NODE_ENV === "production", // ❗ Mettre `true` en production avec HTTPS
       httpOnly: true, // Empêche l'accès JS au cookie
