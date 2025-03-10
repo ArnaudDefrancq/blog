@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SignIn from './signin/SignIn';
+import SignIn from './signIn/SignIn';
 import SignUp from './signUp/SignUp';
 
 
