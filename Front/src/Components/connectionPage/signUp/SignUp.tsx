@@ -5,6 +5,8 @@ import {
   REGEX_PASSWORD,
   REGEX_PSEUDO,
 } from "../../../Tools/configuration";
+import { Auth } from "../../../Types/Auth";
+import { UserController } from "../../../Controllers/UserController";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ISignUpProps {}
@@ -20,6 +22,7 @@ const SignUp: React.FunctionComponent<ISignUpProps> = () => {
   const [pseudo, setPseudo] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [isClick, setIsClick] = React.useState<boolean>(false);
+  const [goodEmail, setGoodEmail] = React.useState<boolean>(true);
 
   const [errors, setErrors] = React.useState<Errors>({
     errorEmail: true,
@@ -37,8 +40,41 @@ const SignUp: React.FunctionComponent<ISignUpProps> = () => {
     Security.checkValidity(value, REGEX_PASSWORD, "errorPassword", setErrors);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    if (!errors.errorEmail && !errors.errorPseudo && !errors.errorPassword) {
+      const newAuth: Auth = {
+        email,
+        pseudo,
+        password
+      }
+      try {
+        const res = await UserController.signUp(newAuth);
+        if (!res) {
+          return console.log('rien')
+        }
+        if (typeof res === "number") {
+          setGoodEmail(true);
+          alert(`Votre compte est créé ! \n Veuillez vous connecter ! :)`);
+          console.log("Inscription réussie, ID:", res);
+        } else {
+          console.log(res.code)
+          const { code }  = res;
+  
+          if (code === 409) {
+            setGoodEmail(false);
+          }
+  
+          console.log(`Code d'erreur ${code}`);
+        }
+      } catch (error) {
+        console.log(error)
+        if (error instanceof Error) {
+          console.error(error.message)
+        }
+      }
+    }
   };
 
   return (
@@ -113,6 +149,11 @@ const SignUp: React.FunctionComponent<ISignUpProps> = () => {
             </p>
           )}
         </div>
+        {(!goodEmail && isClick) && (
+            <p className="text-error text-sm m-5">
+              Adresse mail déjà utilisé.
+            </p>
+          )}
         <div className="m-8 flex justify-center">
           <button
             className="cursor-pointer text-black bg-colorTwo hover:opacity-85 rounded-lg text-m w-40 px-5 py-3 text-center"
