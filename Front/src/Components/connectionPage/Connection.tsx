@@ -17,10 +17,10 @@ const Connection: React.FunctionComponent = () => {
       <section className='flex items-center justify-center min-h-screen bg-colorOne m-auto'>
         <div className='flex flex-col bg-white shadow-xl rounded-2xl'>
           <div className='flex justify-evenly'>
-            <button className='cursor-pointer text-xl p-6 border-b-1 ' onClick={(e) => handleClick(e)} id='signUp'>
+            <button className={!modal ? 'cursor-pointer text-xl p-6 border-b-1' : 'cursor-pointer text-xl p-6 border-b-1 bg-gray-200 rounded-tl-2xl'}  onClick={(e) => handleClick(e)} id='signUp'>
               Inscription
             </button>
-            <button className='cursor-pointer text-xl p-6 border-l-1 border-b-1' onClick={(e) => handleClick(e)} id='signIn'>
+            <button className={!modal ? 'cursor-pointer text-xl p-6 border-b-1 border-l-1 bg-gray-200 rounded-tr-2xl' : 'cursor-pointer text-xl p-6 border-b-1 border-l-1'} onClick={(e) => handleClick(e)} id='signIn'>
               Connexion
             </button>
           </div>
