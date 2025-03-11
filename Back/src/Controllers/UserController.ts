@@ -75,7 +75,7 @@ export class UserController {
                 return res.status(401).json({error: "Les password ne correspondent pas"})
             } 
 
-            res.status(200).json({message: "Connexion OK"});
+            res.status(200).json({message: "Connexion OK | " + user.id_user});
 
             req.session.id_user = user.id_user;
             req.session.id_role = user.id_role;
