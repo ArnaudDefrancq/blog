@@ -22,18 +22,15 @@ export class UserModel  {
         }
     }
 
-    public static async signIn(auth: Auth): Promise<number | void> {
+    public static async signIn(auth: Auth): Promise<number| void> {
         try {
-            const newUser: number = await axios.post(`${import.meta.env.VITE_URL_USER}/signin`, auth);
-            return newUser;
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                console.error("Erreur Axios :", error.response?.data || error.message);
-                throw new Error(error.response?.data?.message || "Une erreur est survenue lors de l'inscription.");
-            } else {
-                console.error("Erreur inconnue :", error);
-                throw new Error("Une erreur inattendue est survenue.");
+            const res = await axios.post(`${import.meta.env.VITE_URL_USER}/signin`, auth);
+            if (res.status == 200) {
+                return Number(res.data.message.split('|')[1]);
             }
+        } catch (error) {
+            console.error("Erreur inconnue :", error);
+            throw new Error("Une erreur inattendue est survenue.");
         } 
     }
 }

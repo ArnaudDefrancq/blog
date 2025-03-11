@@ -1,4 +1,7 @@
 import * as React from "react";
+import { UserController } from "../../../Controllers/UserController";
+import { Auth } from "../../../Types/Auth";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ISignInProps {}
@@ -9,8 +12,28 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
   const [isClick, setIsClick] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<boolean>(false);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const navigate = useNavigate();
+
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    if (email.length > 0 && password.length > 0) {
+
+      const auth: Auth = {
+        email,
+        password
+      }
+      try {
+        const res = await UserController.signIn(auth);
+        if (typeof res === "number") {
+          navigate('/feed');
+        }
+        setErrors(true)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
   };
 
   return (
@@ -47,7 +70,7 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
           />
         </div>
         {errors && isClick && (
-          <p className="text-error text-sm mt-3">
+          <p className="text-error text-sm m-5">
             Mot de passe ou email invalide.
           </p>
         )}
