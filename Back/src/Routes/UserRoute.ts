@@ -13,11 +13,11 @@ class UserRoute {
     private initializeRoutes(): void {
         this.router.post('/signup', UserController.signUp);
         this.router.post('/signin', UserController.signIn);
-        this.router.post('/logout', AuthMiddleware.auth, UserController.logOut);
-        this.router.get('/', AuthMiddleware.auth, UserController.getAllUser);
-        this.router.get('/:id', AuthMiddleware.auth, UserController.getOneUser);
-        this.router.put('/:id/update', AuthMiddleware.auth, UserController.updateUser);
-        this.router.delete('/:id', AuthMiddleware.auth, UserController.deleteUser)
+        this.router.post('/logout', AuthMiddleware.authenticateJWT, UserController.logOut);
+        this.router.get('/', AuthMiddleware.authenticateJWT, UserController.getAllUser);
+        this.router.get('/:id', AuthMiddleware.authenticateJWT, UserController.getOneUser);
+        this.router.put('/:id/update', AuthMiddleware.authenticateJWT, UserController.updateUser);
+        this.router.delete('/:id', AuthMiddleware.authenticateJWT, UserController.deleteUser)
     }
 }
 
