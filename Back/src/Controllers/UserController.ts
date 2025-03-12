@@ -4,6 +4,7 @@ import { Tools } from "../Tools/Tools";
 import { UserModel } from "../Models/UserModel";
 import { User } from "../Types/User";
 import { Folders } from "../Tools/Folders";
+import { Auth } from "../Tools/Auth";
 
 export class UserController {
 
@@ -58,30 +59,31 @@ export class UserController {
             if (req.body.email == ""  || !req.body.email || req.body.password == "" || !req.body.password) {
                 return res.status(400).json({error: "Tous les champs ne sont pas remplient"})
             }
-
+            
             if (!await Security.checkEmail(req.body.email)) {
                 return res.status(409).json({ message: 'Email non trouvé' });
             }
-
+            
             const userModel: UserModel = new UserModel();
-
+            
             const result: Array<User> = await userModel.findUser(`WHERE email='${req.body.email}'`, 'id_user, id_role, password');
-
+            
             const user: User = result[0];
-
+            
             const passwordMatch: boolean = await Security.checkPassword(req.body.password, user.password);
-
+            
             if (!passwordMatch) {
                 return res.status(401).json({error: "Les password ne correspondent pas"})
             } 
 
-            res.status(200).json({message: "Connexion OK | " + user.id_user});
+            if (user.id_user && user.id_role) {
+                const token = Auth.generateToken({user_id: user.id_user, role_id: user.id_role});
 
-            req.session.id_user = user.id_user;
-            req.session.id_role = user.id_role;
-            req.session.save();
-                        
-            return user.id_user;
+                res.status(200).json({message: "Connexion OK | " + user.id_user + " | " + token});
+                            
+                return user.id_user;
+            }
+            
         } catch (error) {
             return  res.status(500).json({error});   
         }
@@ -147,7 +149,7 @@ export class UserController {
                 return res.status(400).json({error: "Pas  de user trouvé"});
             }
             
-            if  (user.id_user != req.session.id_user) {
+            if  (user.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
 
@@ -187,7 +189,7 @@ export class UserController {
                 return res.status(400).json({error: "Pas  de user trouvé"});
             }
             
-            if  (user.id_user != req.session.id_user) {
+            if  (user.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
 
