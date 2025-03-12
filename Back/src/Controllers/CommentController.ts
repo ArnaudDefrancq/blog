@@ -28,7 +28,7 @@ export class CommentController {
                 content: req.body.content,
                 created_at: Tools.dateToTimestamp(),
                 id_post: Number(req.body.id_post),
-                id_user: Number(req.session.id_user)
+                id_user: Number(req.user?.id_user)
             }
 
             commentModel.createComment(newCom, (error, insertId) => {
@@ -111,7 +111,7 @@ export class CommentController {
                 return res.status(400).json({error: "Pas  de post trouvé"});
             }
             
-            if  (comment.id_user != req.session.id_user) {
+            if  (comment.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
 

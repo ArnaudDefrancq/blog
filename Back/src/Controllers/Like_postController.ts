@@ -21,7 +21,7 @@ export class Like_postController {
             const likePostModel: Like_postModel = new Like_postModel();
             const newLikePost: Like_post = {
                 id_post: Number(req.body.id_post),
-                id_user: Number(req.session.id_user)
+                id_user: Number(req.user?.id_user)
             }
 
             likePostModel.createLike_post(newLikePost, (error, insertId) => {
@@ -85,7 +85,7 @@ export class Like_postController {
                 return res.status(400).json({error: "Pas de like_post trouvé"});
             }
             
-            if  (like_post.id_user != req.session.id_user) {
+            if  (like_post.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
 

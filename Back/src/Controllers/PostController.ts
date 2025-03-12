@@ -40,7 +40,7 @@ export class PostController {
                 media: reqFile ? String(reqFile.path.split('\\').at(-1)) : undefined,
                 created_at: Tools.dateToTimestamp(),
                 updated_at: Tools.dateToTimestamp(),
-                id_user: req.session.id_user
+                id_user: req.user?.id_user
             }            
 
             postModel.createPost(newPost, (error, insertId) => {
@@ -143,7 +143,7 @@ export class PostController {
                 return res.status(400).json({error: "Pas de post trouvé"});
             }
             
-            if  (post.id_user != req.session.id_user) {
+            if  (post.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
             
@@ -190,7 +190,7 @@ export class PostController {
                 return res.status(400).json({error: "Pas  de post trouvé"});
             }
             
-            if  (post.id_user != req.session.id_user) {
+            if  (post.id_user != req.user?.id_user) {
                 return res.status(401).json({error: "unauthorized"});
             }
 
