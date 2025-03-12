@@ -12,13 +12,13 @@ class PostRoute {
     }
 
     private initializeRoutes(): void {
-        this.router.post("/", AuthMiddleware.auth, MulterMiddleware.getMulterConfigPost('imgPost'), PostController.createPost);
-        this.router.get("/", AuthMiddleware.auth, PostController.getAllPost);
-        this.router.get("/user", AuthMiddleware.auth, PostController.getAllPostWithUser);
-        this.router.get("/:id", AuthMiddleware.auth, PostController.getOnePost);
-        this.router.get("/:id/user", AuthMiddleware.auth, PostController.getAllPostWithUser);
-        this.router.put("/:id", AuthMiddleware.auth, MulterMiddleware.getMulterConfigPost('imgPost'), PostController.updatePost);
-        this.router.delete("/:id", AuthMiddleware.auth, PostController.deletePost);
+        this.router.post("/", AuthMiddleware.authenticateJWT, MulterMiddleware.getMulterConfigPost('imgPost'), PostController.createPost);
+        this.router.get("/", AuthMiddleware.authenticateJWT, PostController.getAllPost);
+        this.router.get("/user", AuthMiddleware.authenticateJWT, PostController.getAllPostWithUser);
+        this.router.get("/:id", AuthMiddleware.authenticateJWT, PostController.getOnePost);
+        this.router.get("/:id/user", AuthMiddleware.authenticateJWT, PostController.getAllPostWithUser);
+        this.router.put("/:id", AuthMiddleware.authenticateJWT, MulterMiddleware.getMulterConfigPost('imgPost'), PostController.updatePost);
+        this.router.delete("/:id", AuthMiddleware.authenticateJWT, PostController.deletePost);
     }
 }
 

@@ -11,10 +11,10 @@ class Like_postRoute {
     }
 
     private initializeRoutes(): void {
-        this.router.post("/", AuthMiddleware.auth, Like_postController.createLikePost);
-        this.router.get("/", AuthMiddleware.auth, Like_postController.getAllLikePost);
-        this.router.get("/:id", AuthMiddleware.auth, Like_postController.getOneLikePost);
-        this.router.delete("/:id", AuthMiddleware.auth, Like_postController.deleteLikePost);
+        this.router.post("/", AuthMiddleware.authenticateJWT, Like_postController.createLikePost);
+        this.router.get("/", AuthMiddleware.authenticateJWT, Like_postController.getAllLikePost);
+        this.router.get("/:id", AuthMiddleware.authenticateJWT, Like_postController.getOneLikePost);
+        this.router.delete("/:id", AuthMiddleware.authenticateJWT, Like_postController.deleteLikePost);
     }
 }
 

@@ -11,11 +11,11 @@ export class CommentRoute {
     }
 
     private initializeRoutes(): void {
-        this.router.post("/", AuthMiddleware.auth, CommentController.createComment);
-        this.router.get("/", AuthMiddleware.auth, CommentController.getAllComment);
-        this.router.get("/user", AuthMiddleware.auth, CommentController.getAllCommentWithUser);
-        this.router.get("/:id/user", AuthMiddleware.auth, CommentController.getOneCommentWithUser);
-        this.router.delete("/:id", AuthMiddleware.auth, CommentController.deleteComment);
+        this.router.post("/", AuthMiddleware.authenticateJWT, CommentController.createComment);
+        this.router.get("/", AuthMiddleware.authenticateJWT, CommentController.getAllComment);
+        this.router.get("/user", AuthMiddleware.authenticateJWT, CommentController.getAllCommentWithUser);
+        this.router.get("/:id/user", AuthMiddleware.authenticateJWT, CommentController.getOneCommentWithUser);
+        this.router.delete("/:id", AuthMiddleware.authenticateJWT, CommentController.deleteComment);
     }
     
 }
