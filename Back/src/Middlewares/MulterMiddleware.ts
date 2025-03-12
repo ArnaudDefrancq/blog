@@ -4,7 +4,7 @@ export class MulterMiddleware {
     public static getMulterConfigPost (folder: string) {
         const storage = multer.diskStorage({
             destination: (req, file, cb) => {
-                cb(null, path.join(__dirname, `../../Images/${folder}/${req.session.id_user}`))
+                cb(null, path.join(__dirname, `../../Images/${folder}/${req.user?.id_user}`))
             },
             filename: (req, file, cb) => {
                 const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
