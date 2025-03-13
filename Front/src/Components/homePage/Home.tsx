@@ -1,9 +1,12 @@
 import * as React from 'react';
+import Feeds from './feeds/Feeds';
 
 const Home: React.FunctionComponent = () => {
   return (
     <>
-        <h1>Home</h1>
+      <main>
+        <Feeds />
+      </main>
     </>
   );
 };
