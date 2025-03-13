@@ -79,7 +79,7 @@ export class UserController {
             if (user.id_user && user.id_role) {
                 const token = Auth.generateToken({user_id: user.id_user, role_id: user.id_role});
 
-                res.status(200).json({message: "Connexion OK | " + user.id_user + " | " + token});
+                res.status(200).json({user_id: user.id_user, role_id: user.id_role, token});
                             
                 return user.id_user;
             }
