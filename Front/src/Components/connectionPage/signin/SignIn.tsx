@@ -2,6 +2,7 @@ import * as React from "react";
 import { UserController } from "../../../Controllers/UserController";
 import { Auth } from "../../../Types/Auth";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../Store/AuthStore";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ISignInProps {}
@@ -14,6 +15,8 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
 
   const navigate = useNavigate();
 
+  const { setUser } = useAuthStore();
+
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -25,15 +28,15 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
       }
       try {
         const res = await UserController.signIn(auth);
-        if (typeof res === "number") {
-          navigate('/feed');
+        if (res) {
+          setUser(res.user_id, res.role_id, res.token);
+          navigate('/feeds');
         }
         setErrors(true)
       } catch (error) {
         console.error(error)
       }
     }
-
   };
 
   return (
