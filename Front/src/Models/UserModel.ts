@@ -35,13 +35,13 @@ export class UserModel  {
         } 
     }
 
-    public static async getOneUserById(id: number): Promise<User | void> {
-        try {
-            const res = await axios.get(`${import.meta.env.VITE_URL_USER}/${id}`, { withCredentials: true });
-            return res.data;
-        } catch (error) {
-            console.error("Erreur inconnue :", error);
-            throw new Error("Une erreur inattendue est survenue.");
-        }
-    }
+    // public static async getOneUserById(id: number): Promise<User | void> {
+    //     try {
+    //         const res = await axios.get(`${import.meta.env.VITE_URL_USER}/${id}`, { withCredentials: true });
+    //         return res.data;
+    //     } catch (error) {
+    //         console.error("Erreur inconnue :", error);
+    //         throw new Error("Une erreur inattendue est survenue.");
+    //     }
+    // }
 }

@@ -10,7 +10,7 @@ export class UserController {
         return await UserModel.signIn(auth);
     }
 
-    public static async getOneUserById(id: number): Promise<User | void> {
-        return await UserModel.getOneUserById(id);
-    }
+    // public static async getOneUserById(id: number): Promise<User | void> {
+    //     return await UserModel.getOneUserById(id);
+    // }
 }
