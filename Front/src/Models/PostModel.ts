@@ -7,9 +7,9 @@ export class PostModel {
         try {
             const config = {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
-                }
+                },
+                withCredentials: true
             }
             await axios.post(`${import.meta.env.VITE_URL_POST}`, newPost, config);
 
