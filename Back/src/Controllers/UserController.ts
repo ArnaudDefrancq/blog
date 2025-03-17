@@ -82,7 +82,7 @@ export class UserController {
                 res.cookie("token", token, {
                     httpOnly: true,
                     secure: false,
-                    sameSite: 'none',
+                    sameSite: 'lax',
                     maxAge: 60 * 60 * 1000, // Expire en 1h
                 })
 
