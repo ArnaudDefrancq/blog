@@ -79,7 +79,14 @@ export class UserController {
             if (user.id_user && user.id_role) {
                 const token = Auth.generateToken({user_id: user.id_user, role_id: user.id_role});
 
-                res.status(200).json({user_id: user.id_user, role_id: user.id_role, token});
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: false,
+                    sameSite: 'lax',
+                    maxAge: 60 * 60 * 1000, // Expire en 1h
+                })
+
+                res.status(200).json({message : "Connexion OK"});
                             
                 return user.id_user;
             }
