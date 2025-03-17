@@ -10,7 +10,7 @@ type LikePostStoreType = {
     deleteLikePost: (id: number, token: string) => Promise<void>
 }
 
-export const usePostStore = create<LikePostStoreType>((set) => ({
+export const useLikePostStore = create<LikePostStoreType>((set) => ({
     likePosts: [],
     fetchLikePost: async (token: string): Promise<Array<Like_post>> => {
         try {

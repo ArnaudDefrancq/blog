@@ -11,7 +11,7 @@ type CommentStoreType = {
 }
 
 
-export const usePostStore = create<CommentStoreType>((set) => ({
+export const useCommentStore = create<CommentStoreType>((set) => ({
     comments: [],
     fetchComment: async (token: string): Promise<Array<CommentWithUser>> => {
         try {
