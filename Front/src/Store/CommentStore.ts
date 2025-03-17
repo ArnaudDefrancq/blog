@@ -4,18 +4,18 @@ import { CommentController } from "../Controllers/CommentController";
 
 type CommentStoreType = {
     comments: Array<CommentWithUser>,
-    fetchComment: (token: string) => Promise<Array<CommentWithUser>>,
-    fetchOneComment: (id: number, token: string) => Promise<CommentWithUser | null>,
-    createComment: (comment: Comment, token: string) => Promise<void>,
-    deleteComment: (id: number, token: string) => Promise<void>
+    fetchComment: () => Promise<Array<CommentWithUser>>,
+    fetchOneComment: (id: number) => Promise<CommentWithUser | null>,
+    createComment: (comment: Comment) => Promise<void>,
+    deleteComment: (id: number) => Promise<void>
 }
 
 
 export const useCommentStore = create<CommentStoreType>((set) => ({
     comments: [],
-    fetchComment: async (token: string): Promise<Array<CommentWithUser>> => {
+    fetchComment: async (): Promise<Array<CommentWithUser>> => {
         try {
-            const res = await CommentController.getAllComment(token);
+            const res = await CommentController.getAllComment();
             set({ comments: res });
             return res;
         } catch (error) {
@@ -25,9 +25,9 @@ export const useCommentStore = create<CommentStoreType>((set) => ({
         }
     },
 
-    fetchOneComment: async (id: number, token: string): Promise<CommentWithUser | null> => {
+    fetchOneComment: async (id: number, ): Promise<CommentWithUser | null> => {
         try {
-            const res = await CommentController.getOneComment(id, token);
+            const res = await CommentController.getOneComment(id);
             if (res) {
                 return res;
             }
@@ -38,11 +38,11 @@ export const useCommentStore = create<CommentStoreType>((set) => ({
         }
     },
 
-    createComment: async (comment: Comment, token: string): Promise<void> => {
+    createComment: async (comment: Comment, ): Promise<void> => {
         try {
-            const res = await CommentController.createComment(comment, token); 
+            const res = await CommentController.createComment(comment); 
             if (res) {
-                const newComment = (await CommentController.getAllComment(token))[0];
+                const newComment = (await CommentController.getAllComment())[0];
                 set((state) => ({ comments: [...state.comments, newComment] }));
             }
         } catch (error) {
@@ -50,9 +50,9 @@ export const useCommentStore = create<CommentStoreType>((set) => ({
         }
     },
 
-    deleteComment: async (id: number, token: string): Promise<void> => {
+    deleteComment: async (id: number, ): Promise<void> => {
         try {
-            const res = await CommentController.deleteComment(id, token); 
+            const res = await CommentController.deleteComment(id); 
             if (res) {
                 set((state) => ({ comments: state.comments.filter((comment) => comment.id_comment !== id) }));
             }

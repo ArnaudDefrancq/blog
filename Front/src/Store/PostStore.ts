@@ -4,18 +4,18 @@ import { PostController } from "../Controllers/PostController";
 
 type PostStoreType = {
     posts: Array<PostWithUser>,
-    fetchPost: (token: string) => Promise<Array<PostWithUser>>,
-    fetchOnePost: (id: number, token: string) => Promise<PostWithUser | null>,
-    createPost: (post: Post, token: string) => Promise<void>,
-    updatePost: (id: number, updatePost: Post, token: string) => Promise<void>,
-    deletePost: (id: number, token: string) => Promise<void>
+    fetchPost: () => Promise<Array<PostWithUser>>,
+    fetchOnePost: (id: number) => Promise<PostWithUser | null>,
+    createPost: (post: Post) => Promise<void>,
+    updatePost: (id: number, updatePost: Post) => Promise<void>,
+    deletePost: (id: number) => Promise<void>
 }
 
 export const usePostStore = create<PostStoreType>((set) => ({
     posts: [],
-    fetchPost: async (token: string): Promise<Array<PostWithUser>> => {
+    fetchPost: async (): Promise<Array<PostWithUser>> => {
         try {
-            const res = await PostController.getAllPost(token);
+            const res = await PostController.getAllPost();
             set({ posts: res });
             return res;
         } catch (error) {
@@ -25,9 +25,9 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    fetchOnePost: async (id: number, token: string): Promise<PostWithUser | null> => {
+    fetchOnePost: async (id: number, ): Promise<PostWithUser | null> => {
         try {
-            const res = await PostController.getOnePost(id, token);
+            const res = await PostController.getOnePost(id);
             if (res) {
                 return res;
             }
@@ -38,11 +38,11 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    createPost: async (post: Post, token: string): Promise<void> => {
+    createPost: async (post: Post, ): Promise<void> => {
         try {
-            const res = await PostController.createPost(post, token); 
+            const res = await PostController.createPost(post); 
             if (res) {
-                const newPost = (await PostController.getAllPost(token))[0];
+                const newPost = (await PostController.getAllPost())[0];
                 set((state) => ({ posts: [...state.posts, newPost] }));
             }
         } catch (error) {
@@ -50,11 +50,11 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    updatePost: async (id: number, updatePost: Post, token: string): Promise<void> => {
+    updatePost: async (id: number, updatePost: Post, ): Promise<void> => {
         try {
-            const res = await PostController.updatePost(id, updatePost, token);
+            const res = await PostController.updatePost(id, updatePost);
             if (res) {
-                const upPost = await PostController.getOnePost(id, token);
+                const upPost = await PostController.getOnePost(id);
                 set((state) => ({
                     posts: state.posts.map((post) => post.id_post === id ? { ...post, ...upPost } : post)
                 }));
@@ -64,9 +64,9 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    deletePost: async (id: number, token: string): Promise<void> => {
+    deletePost: async (id: number, ): Promise<void> => {
         try {
-            const res = await PostController.deletePost(id, token); 
+            const res = await PostController.deletePost(id); 
             if (res) {
                 set((state) => ({ posts: state.posts.filter((post) => post.id_post !== id) }));
             }

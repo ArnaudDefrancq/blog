@@ -4,17 +4,17 @@ import { LikePostController } from "../Controllers/LikePostController";
 
 type LikePostStoreType = {
     likePosts: Array<Like_post>,
-    fetchLikePost: (token: string) => Promise<Array<Like_post>>,
-    fetchOneLikePost: (id: number, token: string) => Promise<Like_post | null>,
-    createLikePost: (likePost: Like_post, token: string) => Promise<void>,
-    deleteLikePost: (id: number, token: string) => Promise<void>
+    fetchLikePost: () => Promise<Array<Like_post>>,
+    fetchOneLikePost: (id: number) => Promise<Like_post | null>,
+    createLikePost: (likePost: Like_post) => Promise<void>,
+    deleteLikePost: (id: number) => Promise<void>
 }
 
 export const useLikePostStore = create<LikePostStoreType>((set) => ({
     likePosts: [],
-    fetchLikePost: async (token: string): Promise<Array<Like_post>> => {
+    fetchLikePost: async (): Promise<Array<Like_post>> => {
         try {
-            const res = await LikePostController.getAllLikePost(token);
+            const res = await LikePostController.getAllLikePost();
             set({ likePosts: res });
             return res;
         } catch (error) {
@@ -24,9 +24,9 @@ export const useLikePostStore = create<LikePostStoreType>((set) => ({
         }
     },
 
-    fetchOneLikePost: async (id: number, token: string): Promise<Like_post | null> => {
+    fetchOneLikePost: async (id: number, ): Promise<Like_post | null> => {
         try {
-            const res = await LikePostController.getOneLikePost(id, token);
+            const res = await LikePostController.getOneLikePost(id);
             if (res) {
                 return res;
             }
@@ -37,11 +37,11 @@ export const useLikePostStore = create<LikePostStoreType>((set) => ({
         }
     },
 
-    createLikePost: async (likePost: Like_post, token: string): Promise<void> => {
+    createLikePost: async (likePost: Like_post, ): Promise<void> => {
         try {
-            const res = await LikePostController.createLikePost(likePost, token); 
+            const res = await LikePostController.createLikePost(likePost); 
             if (res) {
-                const newLikePost = (await LikePostController.getAllLikePost(token))[0];
+                const newLikePost = (await LikePostController.getAllLikePost())[0];
                 set((state) => ({ likePosts: [...state.likePosts, newLikePost] }));
             }
         } catch (error) {
@@ -49,9 +49,9 @@ export const useLikePostStore = create<LikePostStoreType>((set) => ({
         }
     },
 
-    deleteLikePost: async (id: number, token: string): Promise<void> => {
+    deleteLikePost: async (id: number, ): Promise<void> => {
         try {
-            const res = await LikePostController.deleteLikePost(id, token); 
+            const res = await LikePostController.deleteLikePost(id); 
             if (res) {
                 set((state) => ({ likePosts: state.likePosts.filter((likePost) => likePost.id_like_post !== id) }));
             }
