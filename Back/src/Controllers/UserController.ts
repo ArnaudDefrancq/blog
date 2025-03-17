@@ -96,13 +96,17 @@ export class UserController {
         }
     }
 
+    public static async infoConnect(req: Request, res: Response, next: NextFunction): Promise<void | any> {
+        try {
+            return res.status(200).json({user_id: req.user?.id_user, role: req.user?.id_role});
+        } catch (error) {
+            return res.status(500).json({ error: 'Erreur interne du serveur' });    
+        }
+    }
+
     public static async logOut (req: Request, res: Response, next: NextFunction) : Promise<void | any> {
-        req.session.destroy((error) => {
-            if (error) {
-                return res.status(500).json({error: "error lors de la déconnexion | " + error});
-            }
-            return res.status(200).json({message: "Déconnecté OK"});
-        })
+        res.cookie('token', "", {maxAge: 1})
+        res.status(200).json({message: 'déco'})
     }
 
     public static async getAllUser(req: Request, res: Response, next: NextFunction): Promise<Array<User> | any> {

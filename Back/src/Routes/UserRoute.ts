@@ -13,6 +13,7 @@ class UserRoute {
     private initializeRoutes(): void {
         this.router.post('/signup', UserController.signUp);
         this.router.post('/signin', UserController.signIn);
+        this.router.get('/user', AuthMiddleware.authenticateJWT, UserController.infoConnect);
         this.router.post('/logout', AuthMiddleware.authenticateJWT, UserController.logOut);
         this.router.get('/', AuthMiddleware.authenticateJWT, UserController.getAllUser);
         this.router.get('/:id', AuthMiddleware.authenticateJWT, UserController.getOneUser);
