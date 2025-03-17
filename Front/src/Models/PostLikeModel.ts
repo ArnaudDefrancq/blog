@@ -2,13 +2,13 @@ import axios from "axios";
 import { Like_post } from "../Types/Like_post";
 
 export class PostLikeModel {
-    public static async createLikePost(newLikePost: Like_post, token: string): Promise<boolean> {
+    public static async createLikePost(newLikePost: Like_post): Promise<boolean> {
         try {
             const config = {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
-                }
+                },
+                withCredentials: true 
             }
             await axios.post(`${import.meta.env.VITE_URL_LIKE_POST}`, newLikePost, config);
 
@@ -19,15 +19,9 @@ export class PostLikeModel {
         }
     }
 
-    public static async getAllLikePost(token: string): Promise<Array<Like_post>> {
+    public static async getAllLikePost(): Promise<Array<Like_post>> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: Array<Like_post> = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}`, config)).data;
+            const res: Array<Like_post> = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}`, { withCredentials: true })).data;
             return res.reverse() ?? [];
         } catch (error) {
             console.error('Erreur : ', error);
@@ -35,15 +29,9 @@ export class PostLikeModel {
         }
     }
 
-    public static async getOneLikePost(id: number, token: string): Promise<Like_post | null> {
+    public static async getOneLikePost(id: number): Promise<Like_post | null> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: Like_post = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}/${id}`, config)).data;
+            const res: Like_post = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}/${id}`, { withCredentials: true })).data;
             return res;
         } catch (error) {
             console.error(error)
@@ -51,15 +39,9 @@ export class PostLikeModel {
         }
     }
 
-    public static async deleteLikePost(id: number, token: string): Promise<boolean> {
+    public static async deleteLikePost(id: number): Promise<boolean> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            await axios.delete(`${import.meta.env.VITE_URL_LIKE_POST}/${id}`, config);
+            await axios.delete(`${import.meta.env.VITE_URL_LIKE_POST}/${id}`, { withCredentials: true });
 
             return true;
         } catch (error) {

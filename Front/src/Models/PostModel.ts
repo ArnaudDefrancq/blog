@@ -3,7 +3,7 @@ import { Post, PostWithUser } from "../Types/Post";
 
 export class PostModel {
 
-    public static async createPost(newPost: Post, token: string): Promise<boolean> {
+    public static async createPost(newPost: Post): Promise<boolean> {
         try {
             const config = {
                 headers: {
@@ -20,15 +20,9 @@ export class PostModel {
         }
     }
 
-    public static async getAllPost(token: string): Promise<Array<PostWithUser>> {
+    public static async getAllPost(): Promise<Array<PostWithUser>> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: Array<PostWithUser> = (await axios.get(`${import.meta.env.VITE_URL_POST}/user`, config)).data;
+            const res: Array<PostWithUser> = (await axios.get(`${import.meta.env.VITE_URL_POST}/user`, { withCredentials: true })).data;
             return res.reverse() ?? [];
         } catch (error) {
             console.error('Erreur : ', error);
@@ -36,15 +30,9 @@ export class PostModel {
         }
     }
 
-    public static async getOnePost(id: number, token: string): Promise<PostWithUser | null> {
+    public static async getOnePost(id: number): Promise<PostWithUser | null> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: PostWithUser = (await axios.get(`${import.meta.env.VITE_URL_POST}/${id}/user`, config)).data;
+            const res: PostWithUser = (await axios.get(`${import.meta.env.VITE_URL_POST}/${id}/user`, { withCredentials: true })).data;
             return res;
         } catch (error) {
             console.error(error)
@@ -52,13 +40,13 @@ export class PostModel {
         }
     }
 
-    public static async updatePost(id: number, updatePost: Post, token: string): Promise<boolean> {
+    public static async updatePost(id: number, updatePost: Post): Promise<boolean> {
         try {
             const config = {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
-                }
+                }, 
+                withCredentials: true 
             }
             await axios.put(`${import.meta.env.VITE_URL_POST}/${id}`, updatePost, config);
 
@@ -69,15 +57,9 @@ export class PostModel {
         }
     }
 
-    public static async deletePost(id: number, token: string): Promise<boolean> {
+    public static async deletePost(id: number): Promise<boolean> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            await axios.delete(`${import.meta.env.VITE_URL_POST}/${id}`, config);
+            await axios.delete(`${import.meta.env.VITE_URL_POST}/${id}`, { withCredentials: true });
 
             return true;
         } catch (error) {

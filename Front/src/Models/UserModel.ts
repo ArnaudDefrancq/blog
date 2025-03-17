@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Auth } from "../Types/Auth";
-import { User } from "../Types/User";
+// import { User } from "../Types/User";
 
 export class UserModel  {
     public static async signUp(auth: Auth): Promise<number | { code: number } | undefined> {
@@ -23,9 +23,9 @@ export class UserModel  {
         }
     }
 
-    public static async signIn(auth: Auth): Promise<{user_id: number, role_id: number, token: string} | void> {
+    public static async signIn(auth: Auth): Promise<void> {
         try {
-            const res = await axios.post(`${import.meta.env.VITE_URL_USER}/signin`, auth);
+            const res = await axios.post(`${import.meta.env.VITE_URL_USER}/signin`, auth, {withCredentials: true});
             if (res.status == 200) {
                 return res.data;
             }

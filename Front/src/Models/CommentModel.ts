@@ -2,13 +2,13 @@ import axios from "axios";
 import { Comment, CommentWithUser } from "../Types/Comment";
 
 export class CommentModel {
-    public static async createComment(newCom: Comment, token: string): Promise<boolean> {
+    public static async createComment(newCom: Comment): Promise<boolean> {
         try {
             const config = {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
-                }
+                },
+                withCredentials: true
             }
             await axios.post(`${import.meta.env.VITE_URL_COMMENT}`, newCom, config);
 
@@ -19,15 +19,9 @@ export class CommentModel {
         }
     }
 
-    public static async getAllComment(token: string): Promise<Array<CommentWithUser>> {
+    public static async getAllComment(): Promise<Array<CommentWithUser>> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: Array<CommentWithUser> = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/user`, config)).data;
+            const res: Array<CommentWithUser> = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/user`, { withCredentials: true })).data;
             return res.reverse() ?? [];
         } catch (error) {
             console.error('Erreur : ', error);
@@ -35,15 +29,9 @@ export class CommentModel {
         }
     }
 
-    public static async getOneComment(id: number, token: string): Promise<CommentWithUser | null> {
+    public static async getOneComment(id: number): Promise<CommentWithUser | null> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            const res: CommentWithUser = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/${id}/user`, config)).data;
+            const res: CommentWithUser = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/${id}/user`, { withCredentials: true })).data;
             return res;
         } catch (error) {
             console.error(error)
@@ -51,15 +39,9 @@ export class CommentModel {
         }
     }
 
-    public static async deleteComment(id: number, token: string): Promise<boolean> {
+    public static async deleteComment(id: number): Promise<boolean> {
         try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
-                }
-            }
-            await axios.delete(`${import.meta.env.VITE_URL_COMMENT}/${id}`, config);
+            await axios.delete(`${import.meta.env.VITE_URL_COMMENT}/${id}`, { withCredentials: true });
 
             return true;
         } catch (error) {
