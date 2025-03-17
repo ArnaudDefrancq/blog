@@ -4,10 +4,7 @@ import { Auth } from "../Tools/Auth";
 export class AuthMiddleware {
     
     public static async authenticateJWT(req: Request, res: Response, next: NextFunction): Promise<void | any> {
-        // const token = req.header("Authorization")?.split(" ")[1];
         const token = req.cookies.token
-        console.log(token)
-
         if (!token) {
           res.status(401).json({ message: "Accès non autorisé" });
           return;
