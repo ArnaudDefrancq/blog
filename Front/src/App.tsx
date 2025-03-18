@@ -9,11 +9,11 @@ import { useEffect } from "react"
 
 function App() {
 
-  const { fetchUser, user_id } = useAuthStore();
+  const { fetchUser } = useAuthStore();
 
   useEffect(()=> {
     fetchUser()
-  }, [])
+  }, [fetchUser])
 
   return (
     <>
