@@ -4,8 +4,16 @@ import HomePage from "./Pages/HomePage"
 import ProfilPage from "./Pages/ProfilPage"
 import ParametersPage from "./Pages/ParametersPage"
 import ErrorPage from "./Pages/ErrorPage"
+import { useAuthStore } from "./Store/AuthStore"
+import { useEffect } from "react"
 
 function App() {
+
+  const { fetchUser, user_id } = useAuthStore();
+
+  useEffect(()=> {
+    fetchUser()
+  }, [])
 
   return (
     <>
