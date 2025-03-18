@@ -23,11 +23,11 @@ export class UserModel  {
         }
     }
 
-    public static async signIn(auth: Auth): Promise<void> {
+    public static async signIn(auth: Auth): Promise<boolean | void> {
         try {
             const res = await axios.post(`${import.meta.env.VITE_URL_USER}/signin`, auth, {withCredentials: true});
             if (res.status == 200) {
-                return res.data;
+                return true;
             }
         } catch (error) {
             console.error("Erreur inconnue :", error);
@@ -35,10 +35,10 @@ export class UserModel  {
         } 
     }
 
-    public static async getInfoConnection(): Promise<void> {
+    public static async getInfoConnection(): Promise<{user_id: number, role: number} | void> {
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL_USER}/user`, { withCredentials: true });
-            return res.data;
+            return {user_id: res.data.user_id, role: res.data.role};
         } catch (error) {
             console.error("Erreur inconnue :", error);
             throw new Error("Une erreur inattendue est survenue.");
