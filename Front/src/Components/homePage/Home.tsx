@@ -4,9 +4,7 @@ import Feeds from './feeds/Feeds';
 const Home: React.FunctionComponent = () => {
   return (
     <>
-      <main>
-        <Feeds />
-      </main>
+      <Feeds />
     </>
   );
 };
