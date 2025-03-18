@@ -12,7 +12,6 @@ const Author: React.FunctionComponent<IAuthorProps> = ({ pseudo, created_at, upd
     <>
       <div className="flex items-center space-x-2 text-gray-600 text-sm">
         <p className="font-semibold">{pseudo}</p>
-
         <p className='italic'>{Tools.timestampToDate(updated_at === created_at ? created_at : updated_at)}</p>
       </div>
     </>
