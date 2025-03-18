@@ -16,8 +16,9 @@ export const useAuthStore = create<AuthStoreType>((set) => ({
     fetchUser: async () => {
         try {
             const res = await UserController.getInfoconnection();
-            console.log(res)
-            set({user_id: null, role_id: null})
+            if (typeof res == 'object') {
+                set({user_id: res.user_id, role_id: res.role})
+            }
         } catch (error) {
             console.log(error);
             set({user_id: null, role_id: null})
