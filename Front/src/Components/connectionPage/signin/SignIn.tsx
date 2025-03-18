@@ -12,10 +12,9 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
   const [password, setPassword] = React.useState<string>("");
   const [isClick, setIsClick] = React.useState<boolean>(false);
   const [errors, setErrors] = React.useState<boolean>(false);
-
   const navigate = useNavigate();
 
-  const { setUser } = useAuthStore();
+  const { fetchUser } = useAuthStore();
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -29,7 +28,7 @@ const SignIn: React.FunctionComponent<ISignInProps> = () => {
       try {
         const res = await UserController.signIn(auth);
         if (res) {
-          setUser(res.user_id, res.role_id, res.token);
+          fetchUser();
           navigate('/feeds');
         }
         setErrors(true)
