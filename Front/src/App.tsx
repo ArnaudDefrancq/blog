@@ -6,6 +6,7 @@ import ParametersPage from "./Pages/ParametersPage"
 import ErrorPage from "./Pages/ErrorPage"
 import { useAuthStore } from "./Store/AuthStore"
 import { useEffect } from "react"
+import PostPage from "./Pages/PostPage"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ConnectionPage />} />
             <Route path="/feeds" element={<HomePage />} />
+            <Route path="/post/:id" element={<PostPage />} />
             <Route path="/profil/:id" element={<ProfilPage />} />
             <Route path="/profil/parameters/:id" element={<ParametersPage />} />
             <Route path="*" element={<ErrorPage />} />
