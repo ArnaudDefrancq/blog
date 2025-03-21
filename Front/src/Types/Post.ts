@@ -18,3 +18,9 @@ export interface PostWithUser {
     id_user?: number,
     pseudo: string
 }
+
+export interface NewPost {
+    title: string,
+    content: string,
+    media?: File | null,
+}
