@@ -1,9 +1,9 @@
 import { PostModel } from "../Models/PostModel";
-import { Post, PostWithUser } from "../Types/Post";
+import { NewPost, Post, PostWithUser } from "../Types/Post";
 
 export class PostController {
-    public static async createPost(newPost: Post): Promise<boolean> {
-        return await PostController.createPost(newPost);
+    public static async createPost(newPost: NewPost): Promise<boolean> {
+        return await PostModel.createPost(newPost);
     }
 
     public static async getAllPost(): Promise<Array<PostWithUser>> {

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Post, PostWithUser } from "../Types/Post";
+import { NewPost, Post, PostWithUser } from "../Types/Post";
 
 export class PostModel {
 
-    public static async createPost(newPost: Post): Promise<boolean> {
+    public static async createPost(newPost: NewPost): Promise<boolean> {
         try {
             const config = {
                 headers: {

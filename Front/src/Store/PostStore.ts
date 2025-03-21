@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { Post, PostWithUser } from "../Types/Post";
+import { NewPost, Post, PostWithUser } from "../Types/Post";
 import { PostController } from "../Controllers/PostController";
 
 type PostStoreType = {
     posts: Array<PostWithUser>,
     fetchPost: () => Promise<Array<PostWithUser>>,
     fetchOnePost: (id: number) => Promise<PostWithUser | null>,
-    createPost: (post: Post) => Promise<void>,
+    createPost: (post: NewPost) => Promise<void>,
     updatePost: (id: number, updatePost: Post) => Promise<void>,
     deletePost: (id: number) => Promise<void>
 }
@@ -38,12 +38,12 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    createPost: async (post: Post, ): Promise<void> => {
+    createPost: async (post: NewPost ): Promise<void> => {
         try {
             const res = await PostController.createPost(post); 
             if (res) {
                 const newPost = (await PostController.getAllPost())[0];
-                set((state) => ({ posts: [...state.posts, newPost] }));
+                set((state) => ({ posts: [newPost, ...state.posts] }));
             }
         } catch (error) {
             console.error(error);
