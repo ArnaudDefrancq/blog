@@ -27,7 +27,9 @@ const MainPostPage: React.FunctionComponent = () => {
             post ? (          
                 <Post id_post={post.id_post} title={post.title} content={post.content} media={post.media} user={post.id_user} pseudo={post.pseudo} created_at={post.created_at} updated_at={post.updated_at}/>
             ) : (
-                <h1>Pas de post trouvé</h1>
+                <div className='flex justify-center'>
+                    <h1 className='text-3xl font-bold uppercase my-30'>Pas de post trouvé</h1>
+                </div>
             )
         }
     </>
