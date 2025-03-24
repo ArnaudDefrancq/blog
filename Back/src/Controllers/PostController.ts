@@ -154,7 +154,7 @@ export class PostController {
                 fs.unlinkSync(oldImagePath);
                 post.media = undefined;
             }
-
+        
             if (req.file) {
                 reqFile = req.file as Express.Multer.File;
             }
@@ -163,8 +163,7 @@ export class PostController {
                 content: req.body.content ? req.body.content : post.content,
                 media: reqFile ? String(reqFile.path.split('\\').at(-1)) : post.media,
                 updated_at: Tools.dateToTimestamp()
-            }
-
+            }            
             postModel.updatePost(idPost, updatePost, (error, affectedRow) => {
                 if (error) {
                     return res.status(400).json({error: "Probleme lors de l'update du post | " + error});
