@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NewPost, Post, PostWithUser } from "../Types/Post";
+import { NewPost, PostWithUser } from "../Types/Post";
 
 export class PostModel {
 
@@ -40,7 +40,7 @@ export class PostModel {
         }
     }
 
-    public static async updatePost(id: number, updatePost: Post): Promise<boolean> {
+    public static async updatePost(id: number, updatePost: NewPost): Promise<boolean> {
         try {
             const config = {
                 headers: {

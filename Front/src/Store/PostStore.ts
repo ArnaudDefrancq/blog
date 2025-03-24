@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NewPost, Post, PostWithUser } from "../Types/Post";
+import { NewPost, PostWithUser } from "../Types/Post";
 import { PostController } from "../Controllers/PostController";
 
 type PostStoreType = {
@@ -7,7 +7,7 @@ type PostStoreType = {
     fetchPost: () => Promise<Array<PostWithUser>>,
     fetchOnePost: (id: number) => Promise<PostWithUser | null>,
     createPost: (post: NewPost) => Promise<void>,
-    updatePost: (id: number, updatePost: Post) => Promise<void>,
+    updatePost: (id: number, updatePost: NewPost) => Promise<void>,
     deletePost: (id: number) => Promise<void>
 }
 
@@ -25,7 +25,7 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    fetchOnePost: async (id: number, ): Promise<PostWithUser | null> => {
+    fetchOnePost: async (id: number): Promise<PostWithUser | null> => {
         try {
             const res = await PostController.getOnePost(id);
             if (res) {
@@ -50,7 +50,7 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    updatePost: async (id: number, updatePost: Post, ): Promise<void> => {
+    updatePost: async (id: number, updatePost: NewPost): Promise<void> => {
         try {
             const res = await PostController.updatePost(id, updatePost);
             if (res) {
@@ -64,7 +64,7 @@ export const usePostStore = create<PostStoreType>((set) => ({
         }
     },
 
-    deletePost: async (id: number, ): Promise<void> => {
+    deletePost: async (id: number): Promise<void> => {
         try {
             const res = await PostController.deletePost(id); 
             if (res) {

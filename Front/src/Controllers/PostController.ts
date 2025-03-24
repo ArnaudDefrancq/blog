@@ -1,5 +1,5 @@
 import { PostModel } from "../Models/PostModel";
-import { NewPost, Post, PostWithUser } from "../Types/Post";
+import { NewPost, PostWithUser } from "../Types/Post";
 
 export class PostController {
     public static async createPost(newPost: NewPost): Promise<boolean> {
@@ -14,7 +14,7 @@ export class PostController {
         return await PostModel.getOnePost(id);
     }
 
-    public static async updatePost(id: number, updatePost: Post): Promise<boolean> {
+    public static async updatePost(id: number, updatePost: NewPost): Promise<boolean> {
         return await PostModel.updatePost(id, updatePost);
     }
 
