@@ -48,8 +48,9 @@ app.use('/user', UserRoute);
 app.use('/post', PostRoute);
 app.use('/comment', CommentRoute);
 app.use('/like-post', Like_postRoute);
-// 
-app.use('/imgPost', express.static(path.join(__dirname, '../../Images/imgPost')));
+
+const imagesPath = path.resolve(__dirname, '../Images/imgPost');
+app.use('/imgPost', express.static(imagesPath));
 
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
