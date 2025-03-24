@@ -16,7 +16,7 @@ export class PostController {
         var result: Array<Post> = [];
         result = await postModel.findById(id);
         if (withUser) {
-            const queryString: string = `SELECT p.id_post, p.title, p.content, p.media, p.created_at, p.updated_at, u.pseudo FROM blog__posts as p JOIN blog__users as u ON p.id_user = u.id_user;`;
+            const queryString: string = `SELECT p.id_post, p.title, p.content, p.media, p.created_at, p.updated_at, p.id_user, u.pseudo FROM blog__posts as p JOIN blog__users as u ON p.id_user = u.id_user WHERE p.id_post=${id};`;
             result = await postModel.findById(id, '', queryString);
         }
         if (!result || result.length == 0) {
