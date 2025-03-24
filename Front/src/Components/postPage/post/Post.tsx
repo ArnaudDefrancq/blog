@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
 import { Tools } from '../../../Tools/Tools';
 import { Security } from '../../../Tools/Security';
 import { REGEX_TEXTE, REGEX_TITLE } from '../../../Tools/configuration';
@@ -7,6 +6,7 @@ import { usePostStore } from '../../../Store/PostStore';
 import { NewPost } from '../../../Types/Post';
 
 interface IPostProps {
+    id_post: number | undefined,
     title: string,
     content: string,
     media: string | undefined,
@@ -22,10 +22,7 @@ type Errors = {
     errorFile: boolean
 }
 
-const Post: React.FunctionComponent<IPostProps> = ({title, content, media, user, pseudo, created_at, updated_at}) => {
-
-    const { id } = useParams();
-
+const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, media, user, pseudo, created_at, updated_at}) => {
     const [isEditing, setIsEditing] = React.useState<boolean>(false);
     const [newTitle, setNewTitle] = React.useState<string>('');
     const [newContent, setNewContent] = React.useState<string>(''); 
@@ -95,14 +92,14 @@ const Post: React.FunctionComponent<IPostProps> = ({title, content, media, user,
 
     const handleClick = async(e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        if (!errors.errorTitle && ! errors.errorContent && !errors.errorFile) {
+        if (id_post && !errors.errorTitle && ! errors.errorContent && !errors.errorFile) {
             const upPost: NewPost = {
                 title: newTitle,
                 content: newContent,
                 media: newMediaFile
             }
 
-            await updatePost(Number(id), upPost);
+            await updatePost(id_post, upPost);
             alert('Modification OK')
             changeMode()
         } else {
@@ -169,6 +166,9 @@ const Post: React.FunctionComponent<IPostProps> = ({title, content, media, user,
                 media && (
                     <div className="overflow-hidden rounded-lg shadow-md mb-6">
                         <img src={`${import.meta.env.VITE_URL_IMG}imgPost/${user}/${media}`} alt="Illustration du post" className="w-full max-h-[400px] object-cover" />
+                        {errors.errorFile && isClick && (
+                            <p className="text-error font-semibold text-m mt-3">Veuillez entrer une image valide.</p>
+                        )}
                     </div>
                 )
             )} 
