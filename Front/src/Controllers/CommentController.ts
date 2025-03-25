@@ -1,8 +1,8 @@
 import { CommentModel } from "../Models/CommentModel";
-import { Comment, CommentWithUser } from "../Types/Comment";
+import { newCom, CommentWithUser } from "../Types/Comment";
 
 export class CommentController {
-        public static async createComment(newCom: Comment): Promise<boolean> {
+        public static async createComment(newCom: newCom): Promise<boolean> {
             return await CommentModel.createComment(newCom);
         }
     

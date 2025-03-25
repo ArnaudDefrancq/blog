@@ -1,12 +1,12 @@
 import axios from "axios";
-import { Comment, CommentWithUser } from "../Types/Comment";
+import { newCom, CommentWithUser } from "../Types/Comment";
 
 export class CommentModel {
-    public static async createComment(newCom: Comment): Promise<boolean> {
+    public static async createComment(newCom: newCom): Promise<boolean> {
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
                 withCredentials: true
             }

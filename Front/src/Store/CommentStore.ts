@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { Comment, CommentWithUser } from "../Types/Comment";
+import { CommentWithUser, newCom } from "../Types/Comment";
 import { CommentController } from "../Controllers/CommentController";
 
 type CommentStoreType = {
     comments: Array<CommentWithUser>,
     fetchComment: (idPost: number) => Promise<Array<CommentWithUser>>,
     fetchOneComment: (id: number) => Promise<CommentWithUser | null>,
-    createComment: (comment: Comment, idPost: number) => Promise<void>,
+    createComment: (comment: newCom, idPost: number) => Promise<void>,
     deleteComment: (id: number) => Promise<void>
 }
 
@@ -38,12 +38,12 @@ export const useCommentStore = create<CommentStoreType>((set) => ({
         }
     },
 
-    createComment: async (comment: Comment, idPost: number): Promise<void> => {
+    createComment: async (comment: newCom, idPost: number): Promise<void> => {
         try {
             const res = await CommentController.createComment(comment); 
             if (res) {
                 const newComment = (await CommentController.getAllComment(idPost))[0];
-                set((state) => ({ comments: [...state.comments, newComment] }));
+                set((state) => ({ comments: [newComment, ...state.comments] }));
             }
         } catch (error) {
             console.error(error);

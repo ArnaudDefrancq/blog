@@ -14,3 +14,8 @@ export interface CommentWithUser {
     id_user: number,
     pseudo: string
 }
+
+export interface newCom {
+    content: string,
+    id_post: number
+}
