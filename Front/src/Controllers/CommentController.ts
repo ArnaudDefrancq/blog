@@ -6,8 +6,8 @@ export class CommentController {
             return await CommentModel.createComment(newCom);
         }
     
-        public static async getAllComment(): Promise<Array<CommentWithUser>> {
-            return await CommentModel.getAllComment();
+        public static async getAllComment(idPost: number): Promise<Array<CommentWithUser>> {
+            return await CommentModel.getAllComment(idPost);
         }
     
         public static async getOneComment(id: number): Promise<CommentWithUser | null> {

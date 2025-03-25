@@ -19,9 +19,9 @@ export class CommentModel {
         }
     }
 
-    public static async getAllComment(): Promise<Array<CommentWithUser>> {
+    public static async getAllComment(idPost: number): Promise<Array<CommentWithUser>> {
         try {
-            const res: Array<CommentWithUser> = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/user`, { withCredentials: true })).data;
+            const res: Array<CommentWithUser> = (await axios.get(`${import.meta.env.VITE_URL_COMMENT}/${idPost}/post/user`, { withCredentials: true })).data;
             return res.reverse() ?? [];
         } catch (error) {
             console.error('Erreur : ', error);
