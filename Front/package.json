@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@tailwindcss/vite": "^4.0.9",
     "axios": "^1.8.2",
     "dotenv": "^16.4.7",
@@ -24,6 +26,7 @@
     "@types/node": "^22.13.9",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-fontawesome": "^1.6.8",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react-swc": "^3.8.0",
     "eslint": "^9.21.0",
