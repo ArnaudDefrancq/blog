@@ -6,6 +6,7 @@ import { usePostStore } from '../../../Store/PostStore';
 import { NewPost } from '../../../Types/Post';
 import { useCommentStore } from '../../../Store/CommentStore';
 import Comments from '../../comments/Comments';
+import CreateCom from '../../createCom/CreateCom';
 
 interface IPostProps {
     id_post: number | undefined,
@@ -30,7 +31,8 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
     const [newContent, setNewContent] = React.useState<string>(''); 
     const [newMedia, setNewMedia] = React.useState<string | undefined>()
     const [newMediaFile, setNewMediaFile] = React.useState<File | null>();
-    const [isClick, setIsClick] = React.useState<boolean>(false)
+    const [isClick, setIsClick] = React.useState<boolean>(false);
+    const [addCom, setAddCom] = React.useState<boolean>(false);
 
     const [errors, setErrors] = React.useState<Errors> ({
         errorTitle: false,
@@ -55,12 +57,13 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
         }
     }, [isEditing, title, content, media, user, fetchComment, id_post])
 
-    console.log(comments)
-
-    const changeMode = () => {
+    const changeMode = (): void => {
         return setIsEditing(prevState => !prevState)
     }
 
+    const createCom = (): void => {
+        return setAddCom(prevState => !prevState)
+    }
 
     const displayDate = (created_at: number, updated_at: number): string => {
         return (updated_at === created_at) ? Tools.timestampToDate(created_at) : `modifié le ${Tools.timestampToDate(updated_at)}`
@@ -230,7 +233,18 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
             </div>
 
             <div className="border-t pt-6 mt-6">
-                <h2 className="text-2xl font-semibold mb-4">Commentaires</h2>
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">Commentaires</h2>
+                    <button className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition cursor-pointer" onClick={createCom}>
+                        Commenter
+                    </button>
+                </div>
+
+                {addCom && (
+                    <div className="mt-4 flex items-center gap-2 mb-2">
+                        <CreateCom id_post={id_post}/>
+                    </div>
+                )}
                 {
                     comments.length > 0 ? 
                     comments.map((com) => {
