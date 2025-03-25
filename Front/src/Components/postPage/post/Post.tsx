@@ -7,6 +7,7 @@ import { NewPost } from '../../../Types/Post';
 import { useCommentStore } from '../../../Store/CommentStore';
 import Comments from '../../comments/Comments';
 import CreateCom from '../../createCom/CreateCom';
+import CreatePostLike from '../../createLikePost/CreatePostLike';
 
 interface IPostProps {
     id_post: number | undefined,
@@ -101,16 +102,16 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
         } 
     }
 
-    const handleClick = async(e:React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (id_post && !errors.errorTitle && ! errors.errorContent && !errors.errorFile) {
             const upPost: NewPost = {
                 title: newTitle,
                 content: newContent,
-                media: newMediaFile
+                media: newMediaFile && newMediaFile
             }
 
-            await updatePost(id_post, upPost);
+            updatePost(id_post, upPost);
             alert('Modification OK')
             changeMode()
         } else {
@@ -140,7 +141,10 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
                         )}
                     </div>
                 ) : (
-                    <h1 className="text-4xl font-bold">{title}</h1>
+                    <div className='w-full flex justify-between items-center'>
+                        <h1 className="text-4xl font-bold">{title}</h1>
+                        <CreatePostLike />
+                    </div>
                 )
             }
                 <p className="text-gray-500 text-sm mt-2">
