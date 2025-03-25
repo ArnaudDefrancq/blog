@@ -43,12 +43,14 @@ export class CommentController {
         }
     }
 
-    public static async getAllCommentWithUser(req: Request, res: Response, next: NextFunction): Promise<Array<Comment> | any> {
+    public static async getAllCommentWithUserByPost(req: Request, res: Response, next: NextFunction): Promise<Array<Comment> | any> {
         try {
+            const idComment: number = Number(req.params.id);
+            if (isNaN(idComment)) {
+                return res.status(400).json({ error: 'ID comment invalide' });  
+            }
             const commentModel: CommentModel = new CommentModel()
-
-            const queryString: string = `SELECT c.id_comment, c.content, c.created_at, c.id_post, c.id_user, u.pseudo FROM blog__comments as c JOIN blog__users as u ON c.id_user = u.id_user;`;
-
+            const queryString: string = `SELECT c.id_comment, c.content, c.created_at, c.id_post, c.id_user, u.pseudo FROM blog__comments as c JOIN blog__users as u ON c.id_user = u.id_user WHERE c.id_post=${idComment};`;
             const arrayComment: Array<Comment> = await commentModel.findComment('', '', queryString);
 
             if (!arrayComment || arrayComment.length == 0) {
