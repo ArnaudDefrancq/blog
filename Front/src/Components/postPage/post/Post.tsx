@@ -4,6 +4,8 @@ import { Security } from '../../../Tools/Security';
 import { REGEX_TEXTE, REGEX_TITLE } from '../../../Tools/configuration';
 import { usePostStore } from '../../../Store/PostStore';
 import { NewPost } from '../../../Types/Post';
+import { useCommentStore } from '../../../Store/CommentStore';
+import Comments from '../../comments/Comments';
 
 interface IPostProps {
     id_post: number | undefined,
@@ -37,8 +39,12 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
     }); 
 
     const { updatePost } = usePostStore();
+    const { fetchComment, comments } = useCommentStore();
 
     React.useEffect(() => {
+        if (id_post) {
+            fetchComment(id_post);
+        }
         if (isEditing) {
           setNewTitle(title);
           setNewContent(content)
@@ -47,7 +53,9 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
         if (media) {
             setNewMedia(`${import.meta.env.VITE_URL_IMG}imgPost/${user}/${media}`)
         }
-      }, [isEditing, title, content, media, user])
+    }, [isEditing, title, content, media, user, fetchComment, id_post])
+
+    console.log(comments)
 
     const changeMode = () => {
         return setIsEditing(prevState => !prevState)
@@ -223,7 +231,13 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
 
             <div className="border-t pt-6 mt-6">
                 <h2 className="text-2xl font-semibold mb-4">Commentaires</h2>
-                <p className="text-gray-500">Aucun commentaire pour l'instant.</p>
+                {
+                    comments.length > 0 ? 
+                    comments.map((com) => {
+                        return <Comments com={com} key={com.id_comment} />
+                    }) :
+                    <p className="text-gray-500">Aucun commentaire pour l'instant.</p>
+                }
             </div>
         </div>
     </>
