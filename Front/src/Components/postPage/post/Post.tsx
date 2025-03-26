@@ -143,7 +143,7 @@ const Post: React.FunctionComponent<IPostProps> = ({id_post, title, content, med
                 ) : (
                     <div className='w-full flex justify-between items-center'>
                         <h1 className="text-4xl font-bold">{title}</h1>
-                        <CreatePostLike />
+                        <CreatePostLike id_post={id_post} />
                     </div>
                 )
             }
