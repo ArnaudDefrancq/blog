@@ -6,7 +6,7 @@ export class PostLikeModel {
         try {
             const config = {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
                 withCredentials: true 
             }
@@ -19,9 +19,9 @@ export class PostLikeModel {
         }
     }
 
-    public static async getAllLikePost(): Promise<Array<Like_post>> {
+    public static async getAllLikePost(idPost: number): Promise<Array<Like_post>> {
         try {
-            const res: Array<Like_post> = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}`, { withCredentials: true })).data;
+            const res: Array<Like_post> = (await axios.get(`${import.meta.env.VITE_URL_LIKE_POST}/${idPost}/post`, { withCredentials: true })).data;
             return res.reverse() ?? [];
         } catch (error) {
             console.error('Erreur : ', error);

@@ -1,19 +1,20 @@
+import { PostLikeModel } from "../Models/PostLikeModel";
 import { Like_post } from "../Types/Like_post";
 
 export class LikePostController {
         public static async createLikePost(newLikePost: Like_post): Promise<boolean> {
-            return await LikePostController.createLikePost(newLikePost);
+            return await PostLikeModel.createLikePost(newLikePost);
         }
     
-        public static async getAllLikePost(): Promise<Array<Like_post>> {
-            return await LikePostController.getAllLikePost();
+        public static async getAllLikePost(idPost: number): Promise<Array<Like_post>> {
+            return await PostLikeModel.getAllLikePost(idPost);
         }
     
         public static async getOneLikePost(id: number): Promise<Like_post | null> {
-            return await LikePostController.getOneLikePost(id);
+            return await PostLikeModel.getOneLikePost(id);
         }
 
         public static async deleteLikePost(id: number): Promise<boolean> {
-            return await LikePostController.deleteLikePost(id);
+            return await PostLikeModel.deleteLikePost(id);
         }
 }
