@@ -38,6 +38,11 @@ export class Like_postController {
 
     public static async getAllLikePost(req: Request, res: Response, next: NextFunction): Promise<Array<Like_post> | any> {
         try {
+            const idLikePost: number = Number(req.params.id);
+            if (isNaN(idLikePost)) {
+                return res.status(400).json({ error: 'ID like_post invalide' });  
+            }
+            
             const likePostModel: Like_postModel = new Like_postModel();
             const arrayLikePost: Array<Like_post> = await likePostModel.findLike_post('');
 
