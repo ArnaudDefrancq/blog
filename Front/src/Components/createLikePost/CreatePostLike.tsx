@@ -30,6 +30,7 @@ const CreatePostLike: React.FunctionComponent<ICreatePostLikeProps> = ({id_post}
     if (likeP) {
       postIsLike()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [likeP])
 
   const handleClickLike = (): void => {
