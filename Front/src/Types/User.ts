@@ -6,3 +6,9 @@ export interface User {
     created_at: number,
     id_role: number
 }
+
+export interface UpdateUser {
+    pseudo: string,
+    email: string,
+    password: string,
+}
