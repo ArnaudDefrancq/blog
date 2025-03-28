@@ -60,7 +60,7 @@ export class PostController {
         try {
             const postModel: PostModel = new PostModel()
 
-            const queryString: string = `SELECT p.id_post, p.title, p.content, p.media, p.created_at, p.updated_at, u.pseudo FROM blog__posts as p JOIN blog__users as u ON p.id_user = u.id_user;`;
+            const queryString: string = `SELECT p.id_post, p.title, p.content, p.media, p.created_at, p.updated_at, p.id_user, u.pseudo FROM blog__posts as p JOIN blog__users as u ON p.id_user = u.id_user;`;
 
             const arrayPost: Array<Post> = await postModel.findPost('', '', queryString);
 
